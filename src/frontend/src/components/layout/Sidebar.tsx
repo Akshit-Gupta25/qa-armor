@@ -13,6 +13,7 @@ import {
   Plug,
   Settings,
   Shield,
+  ShieldAlert,
   Sparkles,
 } from "lucide-react";
 import { useState } from "react";
@@ -31,6 +32,7 @@ const navItems: NavItem[] = [
   { id: "bugs", label: "Bug Reports", icon: Bug },
   { id: "coverage", label: "Coverage Map", icon: MapIcon },
   { id: "insights", label: "AI Insights", icon: Sparkles, badge: "NEW" },
+  { id: "analysis", label: "Code Analysis", icon: ShieldAlert, badge: "BETA" },
   { id: "integrations", label: "Integrations", icon: Plug },
   { id: "settings", label: "Settings", icon: Settings },
 ];
@@ -159,7 +161,14 @@ export function Sidebar({
                     {item.label}
                   </span>
                   {item.badge && (
-                    <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-[#3B82F6]/20 text-[#3B82F6]">
+                    <span
+                      className={cn(
+                        "text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded",
+                        item.badge === "BETA"
+                          ? "bg-[#8B5CF6]/20 text-[#8B5CF6]"
+                          : "bg-[#3B82F6]/20 text-[#3B82F6]",
+                      )}
+                    >
                       {item.badge}
                     </span>
                   )}

@@ -50,11 +50,11 @@ export default {
           foreground: "oklch(var(--card-foreground))",
         },
         chart: {
-          1: "oklch(var(--chart-1))",
-          2: "oklch(var(--chart-2))",
-          3: "oklch(var(--chart-3))",
-          4: "oklch(var(--chart-4))",
-          5: "oklch(var(--chart-5))",
+          1: "oklch(var(--chart-1) / <alpha-value>)",
+          2: "oklch(var(--chart-2) / <alpha-value>)",
+          3: "oklch(var(--chart-3) / <alpha-value>)",
+          4: "oklch(var(--chart-4) / <alpha-value>)",
+          5: "oklch(var(--chart-5) / <alpha-value>)",
         },
         sidebar: {
           DEFAULT: "oklch(var(--sidebar))",

@@ -14,6 +14,7 @@ interface KPICardProps {
   subtitleBadge?: string;
   showProgress?: boolean;
   progressValue?: number;
+  helperText?: string;
   className?: string;
   "data-ocid"?: string;
 }
@@ -30,6 +31,7 @@ export function KPICard({
   subtitleBadge,
   showProgress,
   progressValue = 0,
+  helperText,
   className,
   "data-ocid": ocid,
 }: KPICardProps) {
@@ -101,6 +103,13 @@ export function KPICard({
           <span className="text-xs text-[#4A4F5C]">—</span>
         )}
       </div>
+
+      {/* Helper text */}
+      {helperText && (
+        <p className="text-[11px] text-[#4A4F5C] mt-2 leading-snug border-t border-[#2A2D36]/60 pt-2">
+          {helperText}
+        </p>
+      )}
     </div>
   );
 }

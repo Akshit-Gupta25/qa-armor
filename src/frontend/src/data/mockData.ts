@@ -439,3 +439,166 @@ export const statusBreakdown = [
   { name: "Flaky", value: 198, color: "#F59E0B" },
   { name: "Skipped", value: 106, color: "#4A4F5C" },
 ];
+
+// ─── Bug Prediction (Code Analysis) ──────────────────────────────────────────
+export type BugSeverity = "critical" | "high" | "medium" | "low";
+export type BugCategory = "security" | "performance" | "quality" | "logic";
+
+export interface BugPrediction {
+  id: string;
+  file: string;
+  line: number;
+  severity: BugSeverity;
+  type: string;
+  message: string;
+  confidence: number;
+  category: BugCategory;
+}
+
+export const mockBugPredictions: BugPrediction[] = [
+  {
+    id: "pred-001",
+    file: "src/auth/middleware.ts",
+    line: 47,
+    severity: "critical",
+    type: "SQL Injection",
+    message:
+      "Unsanitized user input interpolated directly into SQL query string. Attacker can manipulate query logic.",
+    confidence: 96,
+    category: "security",
+  },
+  {
+    id: "pred-002",
+    file: "src/api/payments.ts",
+    line: 112,
+    severity: "critical",
+    type: "Race Condition",
+    message:
+      "Concurrent payment requests share mutable transaction state without mutex. May cause double-charge or data corruption.",
+    confidence: 89,
+    category: "logic",
+  },
+  {
+    id: "pred-003",
+    file: "src/components/UserProfile.tsx",
+    line: 83,
+    severity: "high",
+    type: "XSS Vulnerability",
+    message:
+      "dangerouslySetInnerHTML used with unescaped user-controlled data. Allows script injection from malicious profiles.",
+    confidence: 92,
+    category: "security",
+  },
+  {
+    id: "pred-004",
+    file: "src/utils/dataFetcher.ts",
+    line: 34,
+    severity: "high",
+    type: "Memory Leak",
+    message:
+      "Event listener registered in useEffect without cleanup return. Listeners accumulate on each component mount.",
+    confidence: 84,
+    category: "performance",
+  },
+  {
+    id: "pred-005",
+    file: "src/hooks/useSearch.ts",
+    line: 22,
+    severity: "medium",
+    type: "N+1 Query",
+    message:
+      "Database query inside a loop iterates over each result to fetch related records. Use JOIN or batch fetch instead.",
+    confidence: 78,
+    category: "performance",
+  },
+  {
+    id: "pred-006",
+    file: "src/services/emailService.ts",
+    line: 67,
+    severity: "medium",
+    type: "Error Swallowing",
+    message:
+      "catch block silently discards error without logging or re-throwing. Email failures will go undetected in production.",
+    confidence: 88,
+    category: "quality",
+  },
+  {
+    id: "pred-007",
+    file: "src/pages/Checkout.tsx",
+    line: 145,
+    severity: "medium",
+    type: "Unhandled Promise",
+    message:
+      "async function call not awaited and rejection not caught. Payment confirmation may silently fail.",
+    confidence: 81,
+    category: "logic",
+  },
+  {
+    id: "pred-008",
+    file: "src/components/DataTable.tsx",
+    line: 201,
+    severity: "low",
+    type: "Prop Type Mismatch",
+    message:
+      "Component accepts `items` as any[], but downstream code assumes typed shape. May cause runtime errors with unexpected data.",
+    confidence: 71,
+    category: "quality",
+  },
+];
+
+export interface AnalysisReport {
+  riskScore: number;
+  totalBugs: number;
+  criticalCount: number;
+  highCount: number;
+  mediumCount: number;
+  lowCount: number;
+  duration: string;
+  analyzedFiles: number;
+  predictions: BugPrediction[];
+  recommendations: string[];
+}
+
+export function generateAnalysisReport(
+  inputType: "github" | "url" | "code",
+): AnalysisReport {
+  const durations: Record<"github" | "url" | "code", string> = {
+    github: "4.7s",
+    url: "2.3s",
+    code: "1.1s",
+  };
+  const fileCounts: Record<"github" | "url" | "code", number> = {
+    github: 38,
+    url: 12,
+    code: 1,
+  };
+
+  const critical = mockBugPredictions.filter(
+    (p) => p.severity === "critical",
+  ).length;
+  const high = mockBugPredictions.filter((p) => p.severity === "high").length;
+  const medium = mockBugPredictions.filter(
+    (p) => p.severity === "medium",
+  ).length;
+  const low = mockBugPredictions.filter((p) => p.severity === "low").length;
+
+  return {
+    riskScore: inputType === "github" ? 74 : inputType === "url" ? 58 : 42,
+    totalBugs: mockBugPredictions.length,
+    criticalCount: critical,
+    highCount: high,
+    mediumCount: medium,
+    lowCount: low,
+    duration: durations[inputType],
+    analyzedFiles: fileCounts[inputType],
+    predictions: mockBugPredictions,
+    recommendations: [
+      "Sanitize all user inputs before passing to database queries — use parameterized statements.",
+      "Audit all useEffect hooks for missing cleanup functions to prevent memory leaks.",
+      "Replace dangerouslySetInnerHTML with DOMPurify or safe rendering alternatives.",
+      "Add global Promise rejection handler and structured error logging via Sentry.",
+      "Batch database calls using DataLoader pattern to eliminate N+1 query anti-patterns.",
+      "Introduce TypeScript strict mode and replace all `any` types with explicit interfaces.",
+    ],
+  };
+}

@@ -52,7 +52,7 @@ export function Layout({ currentPage, onNavigate, children }: LayoutProps) {
             onKeyDown={(e) => e.key === "Escape" && setMobileOpen(false)}
             role="button"
             tabIndex={0}
-            aria-label="Close sidebar"
+            aria-label="Close navigation sidebar"
           />
           <div className="relative flex-shrink-0 h-full">
             <Sidebar
@@ -74,7 +74,12 @@ export function Layout({ currentPage, onNavigate, children }: LayoutProps) {
           isDark={isDark}
           onThemeToggle={() => setIsDark((v) => !v)}
         />
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <main
+          className="flex-1 overflow-y-auto p-6"
+          aria-label={`${currentPage} page content`}
+        >
+          {children}
+        </main>
       </div>
     </div>
   );
