@@ -1,0 +1,26 @@
+{
+  "overview": "QA Armor is an AI-powered QA testing dashboard that gives engineering teams real-time visibility into test health, coverage, and bug status. It features a dark-themed interface with interactive charts, a Kanban bug board, expandable test run tables, and an AI insights feed — all backed by realistic mock data.",
+  "features": [
+    "Dashboard with KPI metrics, area chart, donut chart, and coverage heatmap",
+    "Test Suites grid with mini donut charts and suite-level stats",
+    "Test Runs table with expandable rows showing failed test details",
+    "Bug Reports Kanban board with drag-and-drop + list view toggle",
+    "AI Insights feed with filter tabs and timeline layout",
+    "Responsive layout: full sidebar on desktop, icon-only on tablet, hamburger on mobile",
+    "Dark theme with custom CSS variables and Inter/JetBrains Mono fonts",
+    "Notifications dropdown, toast notifications, and Run Tests loading simulation"
+  ],
+  "category": "productivity",
+  "tags": [
+    "qa",
+    "testing",
+    "dashboard",
+    "dark-theme",
+    "kanban",
+    "charts",
+    "ai-insights",
+    "react",
+    "tailwind"
+  ],
+  "last_updated": "2026-04-23T15:58:03.906Z"
+}
